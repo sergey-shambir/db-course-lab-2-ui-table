@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  ui-table-app:
+    container_name: ui-table-app
+    build: $PWD/docker/image
+    command:
+      - /var/www/docker/docker-entrypoint
+    environment:
+      - USER_ID=${USER_ID:-1000}
+      - USER_NAME=$USER
+      - XDEBUG_MODE=debug
+      - XDEBUG_CONFIG="idekey=123"
+      - PHP_IDE_CONFIG=serverName=localhost
+    working_dir: /var/www
+    volumes:
+      - $PWD/:/var/www
+    depends_on:
+      - ui-table-db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  ui-table-nginx:
+    image: nginx:1.17
+    container_name: ui-table-nginx
+    working_dir: /var/www
+    volumes:
+      - $PWD/:/var/www
+      - $PWD/docker/config/ui-table-nginx.conf:/etc/nginx/conf.d/ui-table-nginx.conf:ro
+    depends_on:
+      - ui-table-app
+    ports:
+      - "127.0.0.1:80:80"
+
+  ui-table-db:
+    image: mysql:8.0.32
+    container_name: ui-table-db
+    hostname: ui-table-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=a6jJBSQRpytghb
+      - MYSQL_USER=ui-table-app
+      - MYSQL_PASSWORD=DlMu3RQuOHhtcb
+    volumes:
+      - $PWD/docker/ui-table-db.cnf:/etc/mysql/conf.d/ui-table-db.cnf:ro
+      - ui_table_db_data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3306:3306"
+
+volumes:
+  ui_table_db_data:
