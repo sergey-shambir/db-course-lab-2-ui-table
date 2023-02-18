@@ -23,4 +23,13 @@
       <path value="$PROJECT_DIR$/vendor/var/cache" />
     </include_path>
   </component>
+  <component name="PhpProjectServersManager">
+    <servers>
+      <server host="127.0.0.1" id="cb5aaff8-2a30-4105-8f6a-b8a2b3222281" name="127.0.0.1" use_path_mappings="true">
+        <path_mappings>
+          <mapping local-root="$PROJECT_DIR$" remote-root="/var/www" />
+        </path_mappings>
+      </server>
+    </servers>
+  </component>
 </project>
