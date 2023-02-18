@@ -1,5 +1,14 @@
 <table>
-    <th>
-        {% for in table_data.columns %}
-    </th>
+    <tr>
+        {% for header in table_data.headers %}
+            <th>{{ header }}</th>
+        {% endfor %}
+    </tr>
+    {% for row in table_data.rows %}
+        <tr>
+            {% for value in row %}
+                <td>{{ value }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
 </table>

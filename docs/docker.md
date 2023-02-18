@@ -13,6 +13,9 @@ docker-compose ps
 # Смотреть логи контейнеров (Ctrl+C для остановки)
 docker-compose logs -f
 
+# Открыть сессию bash в контейнере
+docker/bin/ui-table-app-bash
+
 # Остановить контейнеры
 docker-compose down --remove-orphans
 ```
