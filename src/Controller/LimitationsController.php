@@ -49,7 +49,6 @@ class LimitationsController
             'Created At',
             'Start Date',
             'Country Name',
-            'Region Name',
             'Limitation Type',
             'Products',
             'Ban on transit'
@@ -63,7 +62,6 @@ class LimitationsController
             $data->getCreatedAt()->format(self::UI_DATETIME_FORMAT),
             $data->getStartDate()->format(self::UI_DATE_FORMAT),
             $data->getCountryName(),
-            $data->getRegionName(),
             $data->getLimitationType(),
             implode(self::PRODUCTS_SEPARATOR, $data->getProducts()),
             $data->getBanOnTransit(),
