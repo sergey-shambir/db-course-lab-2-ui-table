@@ -32,4 +32,5 @@
       </server>
     </servers>
   </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
 </project>
