@@ -9,7 +9,7 @@ services:
     environment:
       # Параметры приложения
       - APP_ENV=dev
-      - APP_DATABASE_DSN=mysql:dbname=lection_2;host=ui-table-db
+      - APP_DATABASE_DSN=mysql:dbname=lection_3;host=ui-table-db
       - APP_DATABASE_USER=ui-table-app
       - APP_DATABASE_PASSWORD=DlMu3RQuOHhtcb
       # Параметры скрипта docker-entrypoint
@@ -47,7 +47,7 @@ services:
       - MYSQL_ROOT_PASSWORD=a6jJBSQRpytghb
       - MYSQL_USER=ui-table-app
       - MYSQL_PASSWORD=DlMu3RQuOHhtcb
-      - MYSQL_DATABASE=lection_2
+      - MYSQL_DATABASE=lection_3
     volumes:
       - $PWD/docker/config/mysql.conf.d:/etc/mysql/conf.d/:ro
       - ui_table_db_data:/var/lib/mysql

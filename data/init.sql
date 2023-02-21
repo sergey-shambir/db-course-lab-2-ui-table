@@ -1,5 +1,12 @@
-CREATE DATABASE lection_2;
-USE lection_2;
+CREATE DATABASE lection_3;
+USE lection_3;
+
+-- В MySQL Workbench:
+-- 1. Открыть редактирование Connection через контекстное меню
+-- 2. На вкладке "Connection" перейти в группу "Advanced" и в поле "Others:" добавить строку "OPT_LOCAL_INFILE=1"
+-- 3. Подключиться к БД
+-- https://stackoverflow.com/questions/63361962/error-2068-hy000-load-data-local-infile-file-request-rejected-due-to-restrict
+SET GLOBAL local_infile = 1;
 
 -- 1. Загрузка данных
 
@@ -17,9 +24,13 @@ CREATE TABLE limitation_data
   PRIMARY KEY (act_number)
 );
 
-DESCRIBE limitation_data;
-
-SHOW CREATE TABLE limitation_data;
+-- NOTE: Здесь следует указать путь в своей файловой системе
+LOAD DATA LOCAL INFILE
+  '/home/sergeyshambir/projects/ips/2_ui_table/data/limitation.csv'
+  INTO TABLE limitation_data
+  FIELDS TERMINATED BY ',' ENCLOSED BY '"'
+  LINES TERMINATED BY '\r\n'
+  IGNORE 1 LINES;
 
 DROP TABLE IF EXISTS limitation_ban_on_product_data;
 
@@ -29,25 +40,6 @@ CREATE TABLE limitation_ban_on_product_data
   product_name MEDIUMTEXT
 );
 
--- This restriction can be removed from MySQL Workbench 8.0 in the following way.
--- Edit the connection, on the Connection tab, go to the 'Advanced' sub-tab, and in the 'Others:' box add the line 'OPT_LOCAL_INFILE=1'.
-SET GLOBAL local_infile = 1;
-
-TRUNCATE limitation_data;
-
--- NOTE: Здесь следует указать путь в своей файловой системе
-LOAD DATA LOCAL INFILE
-  '/home/sergeyshambir/projects/ips/2_ui_table/data/limitation.csv'
-  INTO TABLE limitation_data
-  FIELDS TERMINATED BY ',' ENCLOSED BY '"'
-  LINES TERMINATED BY '\r\n'
-  IGNORE 1 LINES;
-
-SELECT *
-FROM limitation_data;
-
-TRUNCATE limitation_ban_on_product_data;
-
 -- NOTE: Здесь следует указать путь в своей файловой системе
 LOAD DATA LOCAL INFILE
   '/home/sergeyshambir/projects/ips/2_ui_table/data/limitation_ban_on_product.csv'
@@ -56,19 +48,7 @@ LOAD DATA LOCAL INFILE
   LINES TERMINATED BY '\r\n'
   IGNORE 1 LINES;
 
-SELECT
-  COUNT(*)
-FROM limitation_ban_on_product_data;
-
-SELECT *
-FROM limitation_ban_on_product_data
-LIMIT 10;
-
 -- 2. Создание справочных таблиц
-
-SELECT DISTINCT
-  country_name
-FROM limitation_data;
 
 DROP TABLE IF EXISTS country;
 
@@ -85,9 +65,6 @@ SELECT DISTINCT
   country_name
 FROM limitation_data;
 
-SELECT *
-FROM country;
-
 DROP TABLE IF EXISTS limitation_type;
 CREATE TABLE limitation_type
 (
@@ -100,9 +77,6 @@ INSERT INTO limitation_type(type, type_name)
 VALUES (1, 'Введение ограничений'),
        (2, 'Отмена ограничений')
 ;
-
-SELECT *
-FROM limitation_type;
 
 -- 3. Разбор даты-времени в формате DECIMAL
 
@@ -163,11 +137,6 @@ FROM limitation_data d
   LEFT JOIN limitation_type t ON d.type = t.type_name
   LEFT JOIN country c ON d.country_name = c.country_name
 ;
-
-SELECT *
-FROM limitation;
-
--- 5. Заполнение таблицы продуктов
 
 DROP TABLE IF EXISTS product;
 CREATE TABLE product
