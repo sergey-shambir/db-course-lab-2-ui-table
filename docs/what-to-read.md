@@ -22,4 +22,5 @@
 
 ## Материалы по заданию
 
-1. https://laravel.demiart.ru/offset-vs-cursor-pagination/
+1. Оператор LIKE: https://stackoverflow.com/questions/7327092/how-should-i-escape-characters-inside-this-like-query
+2. Pagination: https://laravel.demiart.ru/offset-vs-cursor-pagination/
