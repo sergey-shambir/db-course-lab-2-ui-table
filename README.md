@@ -4,6 +4,10 @@
 
 Данные взяты из портала открытых данных: https://data.gov.ru/opendata/7708523530-ogranichennavvoz
 
+## Скриншот
+
+![](docs/ui-table-screenshot.png)
+
 ## Запуск примера на Linux
 
 Краткий план действий:
