@@ -12,7 +12,7 @@ class LimitationData
     private string $limitationType;
     private string $banOnTransit;
     /** @var string[] */
-    private array $products;
+    private array $bannedProducts;
 
     /**
      * @param string $actNumber
@@ -21,7 +21,7 @@ class LimitationData
      * @param string $countryName
      * @param string $limitationType
      * @param string $banOnTransit
-     * @param string[] $products
+     * @param string[] $bannedProducts
      */
     public function __construct(
         string $actNumber,
@@ -30,7 +30,7 @@ class LimitationData
         string $countryName,
         string $limitationType,
         string $banOnTransit,
-        array $products
+        array $bannedProducts
     )
     {
         $this->actNumber = $actNumber;
@@ -39,7 +39,7 @@ class LimitationData
         $this->countryName = $countryName;
         $this->limitationType = $limitationType;
         $this->banOnTransit = $banOnTransit;
-        $this->products = $products;
+        $this->bannedProducts = $bannedProducts;
     }
 
     public function getActNumber(): string
@@ -75,8 +75,8 @@ class LimitationData
     /**
      * @return string[]
      */
-    public function getProducts(): array
+    public function getBannedProducts(): array
     {
-        return $this->products;
+        return $this->bannedProducts;
     }
 }

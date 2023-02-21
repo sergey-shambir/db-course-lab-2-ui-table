@@ -5,14 +5,14 @@ namespace App\Data;
 
 class LimitationFilter
 {
+    public const FILTER_BY_TYPE = 'type';
     public const FILTER_BY_COUNTRY = 'country';
     public const FILTER_BY_PRODUCT = 'product';
-    public const FILTER_BY_TYPE = 'type';
 
     private const ALL_FILTERS = [
+        self::FILTER_BY_TYPE,
         self::FILTER_BY_COUNTRY,
         self::FILTER_BY_PRODUCT,
-        self::FILTER_BY_TYPE,
     ];
 
     private string $filterByField;

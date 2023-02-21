@@ -19,6 +19,7 @@ $errorMiddleware = $app->addErrorMiddleware(!$isProduction, true, true);
 $twig = Twig::create(__DIR__ . '/../templates/', ['cache' => __DIR__ . '/../var/cache/']);
 $app->add(TwigMiddleware::create($app, $twig));
 
-$app->get('/', \App\Controller\LimitationsController::class . ':list');
+$app->get('/table', \App\Controller\LimitationsController::class . ':table')->setName('table');
+$app->redirect('/', '/table');
 
 $app->run();

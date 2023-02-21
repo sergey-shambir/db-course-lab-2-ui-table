@@ -16,7 +16,7 @@ class LimitationsController
     private const UI_DATE_FORMAT = 'Y-m-d';
     const PRODUCTS_SEPARATOR = '; ';
 
-    public function list(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    public function table(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $params = new ListLimitationsParams(
             '',
@@ -30,12 +30,18 @@ class LimitationsController
         $view = Twig::fromRequest($request);
         $dataSource = new LimitationDataSource();
         $limitations = $dataSource->listLimitations($params);
+        $typeOptions = $dataSource->listLimitationTypeSelectOptions();
+        $countryOptions = $dataSource->listCountrySelectOptions();
+        $productOptions = $dataSource->listProductSelectOptions();
 
         return $view->render($response, 'limitations_page.twig', [
+            'form' => [
+                'type_options' => $typeOptions,
+                'country_options' => $countryOptions,
+                'product_options' => $productOptions,
+            ],
             'table_headers' => $this->getTableHeaders(),
-            'table_rows' => array_map(function (LimitationData $limitation): array {
-                return $this->getRowData($limitation);
-            }, $limitations)
+            'table_rows' => array_map(fn($limitation) => $this->getRowData($limitation), $limitations)
         ]);
     }
 
@@ -44,14 +50,15 @@ class LimitationsController
      */
     private function getTableHeaders(): array
     {
+        // TODO: Перенести названия в шаблон
         return [
-            'Act Number',
-            'Created At',
-            'Start Date',
-            'Country Name',
-            'Limitation Type',
-            'Products',
-            'Ban on transit'
+            'Номер указания',
+            'Дата публикации',
+            'Дата начала',
+            'Тип ограничения',
+            'Страна происхождения',
+            'Продукция (ввоз)',
+            'Продукция (транзит)'
         ];
     }
 
@@ -61,9 +68,9 @@ class LimitationsController
             $data->getActNumber(),
             $data->getCreatedAt()->format(self::UI_DATETIME_FORMAT),
             $data->getStartDate()->format(self::UI_DATE_FORMAT),
-            $data->getCountryName(),
             $data->getLimitationType(),
-            implode(self::PRODUCTS_SEPARATOR, $data->getProducts()),
+            $data->getCountryName(),
+            implode(self::PRODUCTS_SEPARATOR, $data->getBannedProducts()),
             $data->getBanOnTransit(),
         ];
     }

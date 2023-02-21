@@ -18,6 +18,9 @@ docker-compose logs -f
 # Открыть сессию bash в контейнере
 docker/bin/ui-table-app-bash
 
+# Чистка кеша Twig
+bin/cleanup-cache
+
 # Остановить контейнеры
 docker-compose down --remove-orphans
 ```

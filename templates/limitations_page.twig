@@ -1,14 +1,58 @@
-<table>
-    <tr>
-        {% for header in table_headers %}
-            <th>{{ header }}</th>
-        {% endfor %}
-    </tr>
-    {% for row in table_rows %}
+{% extends "page_layout.twig" %}
+
+{% block stylesheets %}
+    <link href="{{ 'css/ui-table.css' }}" type="text/css" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    <form class="ui-table-form">
+        <fieldset class='form-row'>
+            <label for="filter_by_type">Тип ограничения:</label>
+            <select id="filter_by_type" name="filter_by_type" required="required">
+                <option selected value="*">Все</option>
+                {% for value, name in form.type_options %}
+                    <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+        </fieldset>
+        <fieldset class='form-row'>
+            <label for="filter_by_country">Страна происхождения:</label>
+            <select id="filter_by_country" name="filter_by_country" required="required">
+                <option selected value="*">Все</option>
+                {% for value, name in form.country_options %}
+                    <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+        </fieldset>
+        <fieldset class='form-row'>
+            <label for="filter_by_product">Продукция (ввоз):</label>
+            <select id="filter_by_product" name="filter_by_product" required="required">
+                <option selected value="*">Все</option>
+                {% for value, name in form.product_options %}
+                    <option value="{{ value }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+        </fieldset>
+        <fieldset class='form-row'>
+            <label for="search_query">Поиск:</label>
+            <input id="search_query" name="search_query" type="text" placeholder="введите текст..." />
+        </fieldset>
+        <div class='form-row'>
+            <button>Применить</button>
+        </div>
+    </form>
+    <table class="ui-table">
         <tr>
-            {% for value in row %}
-                <td>{{ value }}</td>
+            {% for header in table_headers %}
+                <th>{{ header }}</th>
             {% endfor %}
         </tr>
-    {% endfor %}
-</table>
+        {% for row in table_rows %}
+            <tr>
+                {% for value in row %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
