@@ -16,7 +16,7 @@ $app->addRoutingMiddleware();
 $errorMiddleware = $app->addErrorMiddleware(!$isProduction, true, true);
 
 // Регистрация middlewares шаблонизатора Twig.
-$twig = Twig::create(__DIR__ . '/../templates/', ['cache' => __DIR__ . '/../var/cache/']);
+$twig = Twig::create(__DIR__ . '/../templates/', $isProduction ? ['cache' => __DIR__ . '/../var/cache/'] : []);
 $app->add(TwigMiddleware::create($app, $twig));
 
 $app->get('/table', \App\Controller\LimitationsController::class . ':table')->setName('table');

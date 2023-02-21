@@ -118,7 +118,18 @@ class LimitationDataSource
 
     private function buildSqlQuery(ListLimitationsParams $params, array &$queryParams): string
     {
-        // TODO: Реализовать фильтрацию, сортировку, пагинацию.
+        // TODO: (Задание) реализовать поиск строке текста
+        // TODO: (Задание) реализовать сортировку
+        // TODO: (Задание) реализовать Offset pagination либо Cursor pagination
+
+        $whereConditions = [];
+        foreach ($params->getFilters() as $filter)
+        {
+            $whereConditions[] = $this->buildFilterWhereCondition($filter, $queryParams);
+        }
+        $whereConditionsStr = count($whereConditions) > 0
+            ? implode(' AND ', $whereConditions)
+            : 'TRUE';
 
         $query = <<<SQL
         SELECT
@@ -134,9 +145,26 @@ class LimitationDataSource
           INNER JOIN country c on l.country_id = c.id
           INNER JOIN limitation_ban_on_product lbop on l.act_number = lbop.act_number
           INNER JOIN product p on lbop.product_id = p.id
+        WHERE {$whereConditionsStr}
         GROUP BY l.act_number
+        ORDER BY l.act_number
         SQL;
 
         return $query;
+    }
+
+    private function buildFilterWhereCondition(LimitationFilter $filter, array &$queryParams): string
+    {
+        // TODO: (Задание) реализовать фильтрацию по стране и продукту
+        switch ($filter->getFilterByField())
+        {
+            case LimitationFilter::FILTER_BY_TYPE:
+                $queryParams[] = $filter->getValue();
+                return 'lt.type = ?';
+            case LimitationFilter::FILTER_BY_COUNTRY:
+            case LimitationFilter::FILTER_BY_PRODUCT:
+            default:
+                throw new \RuntimeException("Filtering is not implemented for field {$filter->getFilterByField()}");
+        }
     }
 }

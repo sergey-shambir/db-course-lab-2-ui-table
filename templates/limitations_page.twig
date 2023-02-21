@@ -8,34 +8,46 @@
     <form class="ui-table-form">
         <fieldset class='form-row'>
             <label for="filter_by_type">Тип ограничения:</label>
-            <select id="filter_by_type" name="filter_by_type" required="required">
-                <option selected value="*">Все</option>
+            <select id="filter_by_type" name="filter_by_type">
+                <option value="">Все</option>
                 {% for value, name in form.type_options %}
-                    <option value="{{ value }}">{{ name }}</option>
+                    {% if value == form.values.filter_by_type %}
+                        <option value="{{ value }}" selected>{{ name }}</option>
+                    {% else %}
+                        <option value="{{ value }}">{{ name }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </fieldset>
         <fieldset class='form-row'>
             <label for="filter_by_country">Страна происхождения:</label>
-            <select id="filter_by_country" name="filter_by_country" required="required">
-                <option selected value="*">Все</option>
+            <select id="filter_by_country" name="filter_by_country">
+                <option value="">Все</option>
                 {% for value, name in form.country_options %}
-                    <option value="{{ value }}">{{ name }}</option>
+                    {% if value == form.values.filter_by_country %}
+                        <option value="{{ value }}" selected>{{ name }}</option>
+                    {% else %}
+                        <option value="{{ value }}">{{ name }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </fieldset>
         <fieldset class='form-row'>
             <label for="filter_by_product">Продукция (ввоз):</label>
-            <select id="filter_by_product" name="filter_by_product" required="required">
-                <option selected value="*">Все</option>
+            <select id="filter_by_product" name="filter_by_product">
+                <option value="">Все</option>
                 {% for value, name in form.product_options %}
-                    <option value="{{ value }}">{{ name }}</option>
+                    {% if value == form.values.filter_by_product %}
+                        <option value="{{ value }}" selected>{{ name }}</option>
+                    {% else %}
+                        <option value="{{ value }}">{{ name }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </fieldset>
         <fieldset class='form-row'>
             <label for="search_query">Поиск:</label>
-            <input id="search_query" name="search_query" type="text" placeholder="введите текст..." />
+            <input id="search_query" name="search_query" type="text" placeholder="введите текст..." value="{{ form.values.search_query }}"/>
         </fieldset>
         <div class='form-row'>
             <button>Применить</button>
@@ -43,15 +55,23 @@
     </form>
     <table class="ui-table">
         <tr>
-            {% for header in table_headers %}
-                <th>{{ header }}</th>
-            {% endfor %}
+            <th>Номер указания</th>
+            <th>Дата публикации</th>
+            <th>Дата начала</th>
+            <th>Тип ограничения</th>
+            <th>Страна происхождения</th>
+            <th>Продукция (ввоз)</th>
+            <th>Продукция (транзит)</th>
         </tr>
         {% for row in table_rows %}
             <tr>
-                {% for value in row %}
-                    <td>{{ value }}</td>
-                {% endfor %}
+                <td>{{ row.act_number }}</td>
+                <td>{{ row.created_at }}</td>
+                <td>{{ row.start_date }}</td>
+                <td>{{ row.type }}</td>
+                <td>{{ row.country }}</td>
+                <td>{{ row.banned_products }}</td>
+                <td>{{ row.ban_on_transit }}</td>
             </tr>
         {% endfor %}
     </table>

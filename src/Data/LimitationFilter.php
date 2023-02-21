@@ -16,21 +16,16 @@ class LimitationFilter
     ];
 
     private string $filterByField;
-    /** @var string[] */
-    private array $values;
+    private string $value;
 
-    /**
-     * @param string $filterByField
-     * @param string[] $values
-     */
-    public function __construct(string $filterByField, array $values)
+    public function __construct(string $filterByField, string $value)
     {
         if (!in_array($filterByField, self::ALL_FILTERS, true))
         {
             throw new \InvalidArgumentException("List cannot be filtered by field '$filterByField'");
         }
         $this->filterByField = $filterByField;
-        $this->values = $values;
+        $this->value = $value;
     }
 
     public function getFilterByField(): string
@@ -38,11 +33,8 @@ class LimitationFilter
         return $this->filterByField;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getValues(): array
+    public function getValue(): string
     {
-        return $this->values;
+        return $this->value;
     }
 }
